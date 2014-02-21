@@ -1,4 +1,5 @@
 # This is free software. See LICENSE and COPYING files for details.
+require 'pdf/reader'
 
 module Prawn
   # @private

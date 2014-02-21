@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.authors = ["Gregory Brown","Brad Ediger","Daniel Nelson","Jonathan Greenberg","James Healy"]
   spec.email = ["gregory.t.brown@gmail.com","brad@bradediger.com","dnelson@bluejade.com","greenberg@entryway.net","jimmy@deefa.com"]
-  spec.add_dependency('pdf-reader', '~>1.2')
+  spec.add_dependency('pdf-reader', '~>1.3')
   spec.add_dependency('prawn', '>= 0.15.0')
   spec.add_development_dependency('pdf-inspector', '~> 1.1.0')
   spec.add_development_dependency('rspec')
