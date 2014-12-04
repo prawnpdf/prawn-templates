@@ -13,6 +13,7 @@ Gem::Specification.new do |spec|
   spec.email = ["gregory.t.brown@gmail.com","brad@bradediger.com","dnelson@bluejade.com","greenberg@entryway.net","jimmy@deefa.com"]
   spec.add_dependency('pdf-reader', '~>1.3')
   spec.add_dependency('prawn', '>= 0.15.0')
+  spec.add_dependency('pdf-core', '<0.3.1')
   spec.add_development_dependency('pdf-inspector', '~> 1.1.0')
   spec.add_development_dependency('rspec')
   spec.add_development_dependency('rake')
