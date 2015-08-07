@@ -1,5 +1,14 @@
 # This is free software. See LICENSE and COPYING files for details.
 require 'pdf/reader'
+require 'pdf/core'
+require 'prawn/text'
+
+require_relative "../pdf/core/document_state"
+require_relative "../pdf/core/errors"
+require_relative "../pdf/core/object_store"
+require_relative "../pdf/core/page"
+require_relative "text"
+require_relative "document/internals"
 
 module Prawn
   # @private
@@ -10,27 +19,30 @@ module Prawn
       fresh_content_streams(options)
       go_to_page(1)
     end
-   
+
     ## FIXME: This is going to be terribly brittle because
     # it copy-pastes the start_new_page method. But at least
     # it should only run when templates are used.
-
     def start_new_page(options = {})
       return super unless options[:template]
 
       if last_page = state.page
         last_page_size    = last_page.size
         last_page_layout  = last_page.layout
-        last_page_margins = last_page.margins
+        last_page_margins = last_page.margins.dup
       end
 
-      page_options = {:size => options[:size] || last_page_size,
-                      :layout  => options[:layout] || last_page_layout,
-                      :margins => last_page_margins}
+      page_options = {
+        :size    => options[:size] || last_page_size,
+        :layout  => options[:layout] || last_page_layout,
+        :margins => last_page_margins
+      }
       if last_page
         new_graphic_state = last_page.graphic_state.dup  if last_page.graphic_state
-        #erase the color space so that it gets reset on new page for fussy pdf-readers
+
+        # erase the color space so that it gets reset on new page for fussy pdf-readers
         new_graphic_state.color_space = {} if new_graphic_state
+
         page_options.merge!(:graphic_state => new_graphic_state)
       end
 
@@ -246,4 +258,4 @@ end
 Prawn::Document::VALID_OPTIONS << :template
 Prawn::Document.extensions << Prawn::Templates
 
-PDF::Core::ObjectStore.send(:include, Prawn::Templates::ObjectStoreExtensions)
+PDF::Core::ObjectStore.include(Prawn::Templates::ObjectStoreExtensions)
