@@ -8,48 +8,9 @@ AsciiComments:
 IfUnlessModifier:
   Enabled: false
 
-# In this case we supress Prawn::Errors::CannotFit while trying to scale
-# text down to fit.
-HandleExceptions:
-  Exclude:
-    - lib/prawn/text/formatted/box.rb
-
 # %w() style arrays don't always look better.
 WordArray:
   Enabled: false
-
-# Due to some layout constraints in our examples we want to allow these rule to
-# be ignored in the manual.
-Style/ClosingParenthesisIndentation:
-  Exclude:
-    - manual/**/*
-LineEndConcatenation:
-  Exclude:
-    - manual/**/*
-MultilineOperationIndentation:
-  Exclude:
-    - manual/**/*
-    - prawn.gemspec
-Style/SpaceInsideParens:
-  Exclude:
-    - manual/**/*
-SingleSpaceBeforeFirstArg:
-  Exclude:
-    - manual/**/*
-
-# This file shows examples on how to instantiate a document in multiple ways,
-# it does not actually do the instantiation and isn't actually shadowing any
-# variables.
-ShadowingOuterLocalVariable:
-  Exclude:
-    - manual/basic_concepts/creation.rb
-
-# We currently ignore usage of semicolons on this page of the manual so we
-# don't have to worry about changing the content of the manual for now.
-Semicolon:
-  Exclude:
-    - manual/bounding_box/nesting.rb
-
 
 # This cops are candidates for enabling and doing the related cleanup and/or
 # refactoring
