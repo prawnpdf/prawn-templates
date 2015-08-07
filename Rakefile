@@ -3,6 +3,8 @@ Bundler.setup
 
 require 'rake'
 require 'rspec/core/rake_task'
+require 'rubocop/rake_task'
+
 task :default => [:spec, :rubocop]
 
 desc "Run all rspec files"
