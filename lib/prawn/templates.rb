@@ -258,4 +258,4 @@ end
 Prawn::Document::VALID_OPTIONS << :template
 Prawn::Document.extensions << Prawn::Templates
 
-PDF::Core::ObjectStore.send(:include, Prawn::Templates::ObjectStoreExtensions)
+PDF::Core::ObjectStore.include(Prawn::Templates::ObjectStoreExtensions)
