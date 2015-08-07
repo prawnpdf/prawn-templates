@@ -1,0 +1,12 @@
+language: ruby
+rvm:
+  - 2.0
+  - 2.1
+  - 2.2
+  - rbx-2
+  - jruby
+env:
+  JRUBY_OPTS=--2.0
+matrix:
+  allow_failures:
+    - rvm: rbx-2
