@@ -16,6 +16,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('pdf-inspector', '~> 1.1.0')
   spec.add_development_dependency('rspec')
   spec.add_development_dependency('rake')
+  spec.add_development_dependency('rubocop', '0.30.1')
   spec.homepage = "http://prawn.majesticseacreature.com"
   spec.description = "Prawn::Templates allows using PDFs as templates in Prawn"
 end
