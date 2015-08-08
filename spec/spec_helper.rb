@@ -13,11 +13,9 @@ end
 require "prawn"
 require_relative "../lib/prawn/templates"
 
-
 require "rspec"
 require "pdf/reader"
 require "pdf/inspector"
-
 
 RSpec::Matchers.define :have_parseable_xobjects do
   match do |actual|

@@ -1,9 +1,9 @@
 module Prawn
   module Text #:nodoc:
-    def text_rendering_mode(mode=nil)
+    def text_rendering_mode(mode = nil)
       return (defined?(@text_rendering_mode) && @text_rendering_mode || :fill) if mode.nil?
       unless MODES.key?(mode)
-        raise ArgumentError, "mode must be between one of #{MODES.keys.join(', ')} (#{mode})"
+        fail ArgumentError, "mode must be between one of #{MODES.keys.join(', ')} (#{mode})"
       end
       original_mode = self.text_rendering_mode
       if original_mode == :unknown

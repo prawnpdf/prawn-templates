@@ -105,12 +105,8 @@ module Prawn
              elsif File.file?(input.to_s)
                StringIO.new(File.binread(input.to_s))
              else
-               raise ArgumentError, "input must be an IO-like object or a filename"
+               fail ArgumentError, "input must be an IO-like object or a filename"
              end
-
-                # unless File.file?(filename)
-        #   raise ArgumentError, "#{filename} does not exist"
-        # end
 
         hash = indexed_hash(input, io)
         ref  = hash.page_references[page_num - 1]
@@ -186,7 +182,7 @@ module Prawn
       def load_file(template)
         unless (template.respond_to?(:seek) && template.respond_to?(:read)) ||
                File.file?(template)
-          raise ArgumentError, "#{template} does not exist"
+          fail ArgumentError, "#{template} does not exist"
         end
 
         hash = PDF::Reader::ObjectHash.new(template)
@@ -196,7 +192,7 @@ module Prawn
 
         if hash.trailer[:Encrypt]
           msg = "Template file is an encrypted PDF, it can't be used as a template"
-          raise PDF::Core::Errors::TemplateError, msg
+          fail PDF::Core::Errors::TemplateError, msg
         end
 
         if src_info
@@ -224,12 +220,12 @@ module Prawn
         @loaded_objects ||= {}
         case object
         when ::Hash then
-          object.each { |key,value| object[key] = load_object_graph(hash, value) }
+          object.each { |key, value| object[key] = load_object_graph(hash, value) }
           object
         when Array then
-          object.map { |item| load_object_graph(hash, item)}
+          object.map { |item| load_object_graph(hash, item) }
         when PDF::Reader::Reference then
-          unless @loaded_objects.has_key?(object.id)
+          unless @loaded_objects.key?(object.id)
             @loaded_objects[object.id] = ref(nil)
             new_obj = load_object_graph(hash, hash[object])
             if new_obj.kind_of?(PDF::Reader::Stream)
@@ -258,4 +254,4 @@ end
 Prawn::Document::VALID_OPTIONS << :template
 Prawn::Document.extensions << Prawn::Templates
 
-PDF::Core::ObjectStore.include(Prawn::Templates::ObjectStoreExtensions)
+PDF::Core::ObjectStore.send(:include, Prawn::Templates::ObjectStoreExtensions)

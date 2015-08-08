@@ -29,7 +29,7 @@ module PDF
         @skip_encoding           = options.fetch(:skip_encoding, false)
         @before_render_callbacks = []
         @on_page_create_callback = nil
-       end
-     end
-   end
- end
+      end
+    end
+  end
+end
