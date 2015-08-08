@@ -1,0 +1,129 @@
+# We need to reference non-ascii characters when testing and explaining
+# behavior related to win-1252, UTF-8 and UTF-16 encodings for example.
+AsciiComments:
+  Enabled: false
+
+# We don't always prefer modified if statements even if they do fit on
+# a line.
+IfUnlessModifier:
+  Enabled: false
+
+# %w() style arrays don't always look better.
+WordArray:
+  Enabled: false
+
+# This cops are candidates for enabling and doing the related cleanup and/or
+# refactoring
+Style/BlockDelimiters:
+  Enabled: false
+  EnforcedStyle: semantic
+Void:
+  Enabled: false
+StringLiterals:
+  Enabled: false
+HashSyntax:
+  Enabled: false
+UselessAssignment:
+  Enabled: false
+Lambda:
+  Enabled: false
+LineLength:
+  Enabled: false
+SpaceBeforeBlockBraces:
+  Enabled: false
+SpaceInsideBrackets:
+  Enabled: false
+FormatString:
+  Enabled: false
+CollectionMethods:
+  Enabled: false
+DotPosition:
+  Enabled: false
+SingleLineBlockParams:
+  Enabled: false
+PercentLiteralDelimiters:
+  Enabled: false
+Documentation:
+  Enabled: false
+RegexpLiteral:
+  Enabled: false
+MethodLength:
+  Enabled: false
+VariableInterpolation:
+  Enabled: false
+AndOr:
+  Enabled: false
+AssignmentInCondition:
+  Enabled: false
+ClassAndModuleChildren:
+  Enabled: false
+NumericLiterals:
+  Enabled: false
+DoubleNegation:
+  Enabled: false
+SelfAssignment:
+  Enabled: false
+ClassLength:
+  Enabled: false
+CaseEquality:
+  Enabled: false
+RedundantSelf:
+  Enabled: false
+BlockNesting:
+  Enabled: false
+NegatedWhile:
+  Enabled: false
+MultilineIfThen:
+  Enabled: false
+ModuleFunction:
+  Enabled: false
+CyclomaticComplexity:
+  Enabled: false
+UnreachableCode:
+  Enabled: false
+AccessorMethodName:
+  Enabled: false
+SpaceAfterControlKeyword:
+  Enabled: false
+PredicateName:
+  Enabled: false
+ConstantName:
+  Enabled: false
+MethodName:
+  Enabled: false
+Alias:
+  Enabled: false
+RedundantReturn:
+  Enabled: false
+WhileUntilModifier:
+  Enabled: false
+StringConversionInInterpolation:
+  Enabled: false
+RedundantBegin:
+  Enabled: false
+PerlBackrefs:
+  Enabled: false
+ClassVars:
+  Enabled: false
+ParameterLists:
+  Enabled: false
+AbcSize:
+  Enabled: false
+PerceivedComplexity:
+  Enabled: false
+UnusedBlockArgument:
+  Enabled: false
+UnusedMethodArgument:
+  Enabled: false
+Next:
+  Enabled: false
+ClassCheck:
+  Enabled: false
+SpaceBeforeComma:
+  Enabled: false
+StringLiteralsInInterpolation:
+  Enabled: false
+GuardClause:
+  Enabled: false
+BlockEndNewline:
+  Enabled: false
