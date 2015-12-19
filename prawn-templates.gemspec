@@ -8,6 +8,7 @@ Gem::Specification.new do |spec|
   spec.require_path = "lib"
   spec.required_ruby_version = '>= 1.9.3'
   spec.required_rubygems_version = ">= 1.3.6"
+  spec.licenses = %w(PRAWN GPL-2.0 GPL-3.0)
 
   spec.authors = ["Gregory Brown","Brad Ediger","Daniel Nelson","Jonathan Greenberg","James Healy"]
   spec.email = ["gregory.t.brown@gmail.com","brad@bradediger.com","dnelson@bluejade.com","greenberg@entryway.net","jimmy@deefa.com"]
