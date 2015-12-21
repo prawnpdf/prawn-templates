@@ -1,5 +1,14 @@
 # This is free software. See LICENSE and COPYING files for details.
 require 'pdf/reader'
+require 'pdf/core'
+require 'prawn/text'
+
+require_relative "../pdf/core/document_state"
+require_relative "../pdf/core/errors"
+require_relative "../pdf/core/object_store"
+require_relative "../pdf/core/page"
+require_relative "text"
+require_relative "document/internals"
 
 module Prawn
   # @private
@@ -10,27 +19,30 @@ module Prawn
       fresh_content_streams(options)
       go_to_page(1)
     end
-   
+
     ## FIXME: This is going to be terribly brittle because
     # it copy-pastes the start_new_page method. But at least
     # it should only run when templates are used.
-
     def start_new_page(options = {})
       return super unless options[:template]
 
       if last_page = state.page
         last_page_size    = last_page.size
         last_page_layout  = last_page.layout
-        last_page_margins = last_page.margins
+        last_page_margins = last_page.margins.dup
       end
 
-      page_options = {:size => options[:size] || last_page_size,
-                      :layout  => options[:layout] || last_page_layout,
-                      :margins => last_page_margins}
+      page_options = {
+        :size    => options[:size] || last_page_size,
+        :layout  => options[:layout] || last_page_layout,
+        :margins => last_page_margins
+      }
       if last_page
         new_graphic_state = last_page.graphic_state.dup  if last_page.graphic_state
-        #erase the color space so that it gets reset on new page for fussy pdf-readers
+
+        # erase the color space so that it gets reset on new page for fussy pdf-readers
         new_graphic_state.color_space = {} if new_graphic_state
+
         page_options.merge!(:graphic_state => new_graphic_state)
       end
 
@@ -93,12 +105,8 @@ module Prawn
              elsif File.file?(input.to_s)
                StringIO.new(File.binread(input.to_s))
              else
-               raise ArgumentError, "input must be an IO-like object or a filename"
+               fail ArgumentError, "input must be an IO-like object or a filename"
              end
-
-                # unless File.file?(filename)
-        #   raise ArgumentError, "#{filename} does not exist"
-        # end
 
         hash = indexed_hash(input, io)
         ref  = hash.page_references[page_num - 1]
@@ -174,7 +182,7 @@ module Prawn
       def load_file(template)
         unless (template.respond_to?(:seek) && template.respond_to?(:read)) ||
                File.file?(template)
-          raise ArgumentError, "#{template} does not exist"
+          fail ArgumentError, "#{template} does not exist"
         end
 
         hash = PDF::Reader::ObjectHash.new(template)
@@ -184,7 +192,7 @@ module Prawn
 
         if hash.trailer[:Encrypt]
           msg = "Template file is an encrypted PDF, it can't be used as a template"
-          raise PDF::Core::Errors::TemplateError, msg
+          fail PDF::Core::Errors::TemplateError, msg
         end
 
         if src_info
@@ -212,12 +220,12 @@ module Prawn
         @loaded_objects ||= {}
         case object
         when ::Hash then
-          object.each { |key,value| object[key] = load_object_graph(hash, value) }
+          object.each { |key, value| object[key] = load_object_graph(hash, value) }
           object
         when Array then
-          object.map { |item| load_object_graph(hash, item)}
+          object.map { |item| load_object_graph(hash, item) }
         when PDF::Reader::Reference then
-          unless @loaded_objects.has_key?(object.id)
+          unless @loaded_objects.key?(object.id)
             @loaded_objects[object.id] = ref(nil)
             new_obj = load_object_graph(hash, hash[object])
             if new_obj.kind_of?(PDF::Reader::Stream)
@@ -246,4 +254,4 @@ end
 Prawn::Document::VALID_OPTIONS << :template
 Prawn::Document.extensions << Prawn::Templates
 
-PDF::Core::ObjectStore.send(:include, Prawn::Templates::ObjectStoreExtensions)
+PDF::Core::ObjectStore.include(Prawn::Templates::ObjectStoreExtensions)

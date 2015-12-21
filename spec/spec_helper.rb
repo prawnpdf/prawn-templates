@@ -7,20 +7,15 @@ Bundler.setup
 
 if ENV["COVERAGE"]
   require "simplecov"
-  SimpleCov.start 
+  SimpleCov.start
 end
 
 require "prawn"
 require_relative "../lib/prawn/templates"
 
-
 require "rspec"
 require "pdf/reader"
 require "pdf/inspector"
-
-RSpec.configure do |config|
-  config.treat_symbols_as_metadata_keys_with_true_values = true
-end
 
 RSpec::Matchers.define :have_parseable_xobjects do
   match do |actual|
