@@ -10,14 +10,15 @@ Gem::Specification.new do |spec|
   spec.required_rubygems_version = ">= 1.3.6"
   spec.licenses = %w(PRAWN GPL-2.0 GPL-3.0)
 
-  spec.authors = ["Gregory Brown","Brad Ediger","Daniel Nelson","Jonathan Greenberg","James Healy"]
-  spec.email = ["gregory.t.brown@gmail.com","brad@bradediger.com","dnelson@bluejade.com","greenberg@entryway.net","jimmy@deefa.com"]
+  spec.authors = ["Gregory Brown","Brad Ediger","Daniel Nelson","Jonathan Greenberg","James Healy","Burkhard Vogel"]
+  spec.email = ["gregory.t.brown@gmail.com","brad@bradediger.com","dnelson@bluejade.com","greenberg@entryway.net","jimmy@deefa.com","b.vogel@buddyandselly.com"]
   spec.add_dependency('pdf-reader', '~>1.3')
-  spec.add_dependency('prawn', '>= 0.15.0')
-  spec.add_development_dependency('pdf-inspector', '~> 1.1.0')
+  spec.add_dependency('prawn', '>= 2.1.0')
+  spec.add_dependency('pdf-core', '>= 0.5.0')
+  spec.add_development_dependency('pdf-inspector', '~> 1.2.0')
   spec.add_development_dependency('rspec')
   spec.add_development_dependency('rake')
   spec.add_development_dependency('rubocop', '0.30.1')
-  spec.homepage = "http://prawn.majesticseacreature.com"
+  spec.homepage = "https://github.com/prawnpdf/prawn-templates"
   spec.description = "Prawn::Templates allows using PDFs as templates in Prawn"
 end
