@@ -3,7 +3,7 @@ Gem::Specification.new do |spec|
   spec.version = File.read(File.expand_path('VERSION', File.dirname(__FILE__))).strip
   spec.platform = Gem::Platform::RUBY
   spec.summary = "Prawn::Templates allows using PDFs as templates in Prawn"
-  spec.files =  Dir.glob("{lib}/**/**/*") + ["prawn-templates.gemspec"]
+  spec.files =  Dir.glob("{lib}/**/**/*") + ["prawn-templates.gemspec", "COPYING", "LICENSE", "GPLv2", "GPLv3"]
   spec.require_path = "lib"
   spec.required_ruby_version = '>= 1.9.3'
   spec.required_rubygems_version = ">= 1.3.6"
