@@ -23,4 +23,6 @@ it, see Prawn's tracker:
 
 https://github.com/prawnpdf/prawn/issues?direction=desc&labels=templates&page=1&sort=updated&state=closed
 
-Issues that affect the new 0.0.4 release should be filed here.
+Issues that affect releases after 0.0.3 should be filed here.
+
+For Prawn 2.1.0 use 0.0.4, Prawn 2.2.x should work with 0.0.5
