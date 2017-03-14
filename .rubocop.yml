@@ -12,21 +12,10 @@ RSpec/NestedGroups:
 RSpec/NotToNot:
   EnforcedStyle: to_not
 
-# This file shows examples on how to instantiate a document in multiple ways,
-# it does not actually do the instantiation and isn't actually shadowing any
-# variables.
-Lint/ShadowingOuterLocalVariable:
-  Exclude:
-    - manual/basic_concepts/creation.rb
-
 Metrics/AbcSize:
   Enabled: false
 Metrics/BlockLength:
   Exclude:
-    - lib/prawn/graphics.rb
-    - lib/prawn/images/png.rb
-    - lib/prawn/text/formatted/parser.rb
-    - manual/**/*.rb
     - prawn-templates.gemspec
     - spec/**/*.rb
 Metrics/ClassLength:
@@ -39,10 +28,6 @@ Metrics/ModuleLength:
   Enabled: false
 Metrics/PerceivedComplexity:
   Enabled: false
-
-Style/AccessorMethodName:
-  Exclude:
-    - lib/prawn/graphics/color.rb
 
 Style/AlignParameters:
   EnforcedStyle: with_fixed_indentation
@@ -57,13 +42,6 @@ Style/Documentation:
 
 Style/Encoding:
   EnforcedStyle: never
-  # To be safe we are leaving these files encoded ASCII-8BIT as
-  # discussed at https://github.com/prawnpdf/prawn/pull/705
-  Exclude:
-    - lib/prawn/images/jpg.rb
-    - lib/prawn/images/png.rb
-    - lib/prawn/images.rb
-    - spec/png_spec.rb
 
 Style/FirstArrayElementLineBreak:
   Enabled: true
@@ -79,12 +57,6 @@ Style/FirstParameterIndentation:
 
 Style/GuardClause:
   Enabled: false
-
-# In this case we supress Prawn::Errors::CannotFit while trying to scale
-# text down to fit.
-Lint/HandleExceptions:
-  Exclude:
-    - lib/prawn/text/formatted/box.rb
 
 # We don't always prefer modified if statements even if they do fit on
 # a line.
@@ -103,7 +75,7 @@ Style/MultilineMethodCallIndentation:
 Style/MultilineOperationIndentation:
   EnforcedStyle: indented
   Exclude:
-    - prawn.gemspec
+    - prawn-templates.gemspec
 
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
@@ -117,11 +89,6 @@ Style/PercentLiteralDelimiters:
     '%w': '[]'
     '%W': '[]'
     '%x': '()'
-
-Style/PredicateName:
-  Exclude:
-    - lib/prawn/font/ttf.rb
-    - lib/prawn/font/afm.rb
 
 Style/SpaceAroundOperators:
   AllowForAlignment: false

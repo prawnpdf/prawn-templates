@@ -3,10 +3,12 @@ module PDF
     class Page #:nodoc:
       def initialize(document, options = {})
         @document = document
-        @margins  = options[:margins] || { left: 36,
-                                           right: 36,
-                                           top: 36,
-                                           bottom: 36 }
+        @margins = options[:margins] || {
+          left: 36,
+          right: 36,
+          top: 36,
+          bottom: 36
+        }
         @crops = options[:crops] || ZERO_INDENTS
         @bleeds = options[:bleeds] || ZERO_INDENTS
         @trims = options[:trims] || ZERO_INDENTS
@@ -19,9 +21,9 @@ module PDF
         end
       end
 
-      # As per the PDF spec, each page can have multiple content streams. This will
-      # add a fresh, empty content stream this the page, mainly for use in loading
-      # template files.
+      # As per the PDF spec, each page can have multiple content streams. This
+      # will add a fresh, empty content stream this the page, mainly for use in
+      # loading template files.
       #
       def new_content_stream
         return if in_stamp_stream?
@@ -43,20 +45,22 @@ module PDF
 
         coords = PDF::Core::PageGeometry::SIZES[size] || size
         [0, 0] +
-            case layout
-              when :portrait
-                coords
-              when :landscape
-                coords.reverse
-              else
-                raise PDF::Core::Errors::InvalidPageLayout,
-                      'Layout must be either :portrait or :landscape'
-            end
+          case layout
+          when :portrait
+            coords
+          when :landscape
+            coords.reverse
+          else
+            raise PDF::Core::Errors::InvalidPageLayout,
+              'Layout must be either :portrait or :landscape'
+          end
       end
 
       def init_from_object(options)
         @dictionary = options[:object_id].to_i
-        dictionary.data[:Parent] = document.state.store.pages if options[:page_template]
+        if options[:page_template]
+          dictionary.data[:Parent] = document.state.store.pages
+        end
 
         unless dictionary.data[:Contents].is_a?(Array) # content only on leafs
           @content = dictionary.data[:Contents].identifier
@@ -68,24 +72,24 @@ module PDF
       end
 
       def init_new_page(options)
-        @size     = options[:size] || 'LETTER'
-        @layout   = options[:layout] || :portrait
+        @size = options[:size] || 'LETTER'
+        @layout = options[:layout] || :portrait
 
-        @stamp_stream      = nil
-        @stamp_dictionary  = nil
-        @imported_page     = false
+        @stamp_stream = nil
+        @stamp_dictionary = nil
+        @imported_page = false
 
         @content = document.ref({})
         content << 'q' << "\n"
         @dictionary = document.ref(
-            Type: :Page,
-            Parent: document.state.store.pages,
-            MediaBox: dimensions,
-            CropBox: crop_box,
-            BleedBox: bleed_box,
-            TrimBox: trim_box,
-            ArtBox: art_box,
-            Contents: content
+          Type: :Page,
+          Parent: document.state.store.pages,
+          MediaBox: dimensions,
+          CropBox: crop_box,
+          BleedBox: bleed_box,
+          TrimBox: trim_box,
+          ArtBox: art_box,
+          Contents: content
         )
 
         resources[:ProcSet] = [:PDF, :Text, :ImageB, :ImageC, :ImageI]

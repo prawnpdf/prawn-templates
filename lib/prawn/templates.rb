@@ -71,7 +71,11 @@ module Prawn
         state.insert_page(state.page, @page_number)
         @page_number += 1
 
-        canvas { image(@background, scale: @background_scale, at: bounds.top_left) } if @background
+        if @background
+          canvas do
+            image(@background, scale: @background_scale, at: bounds.top_left)
+          end
+        end
         @y = @bounding_box.absolute_top
 
         float do
@@ -81,7 +85,10 @@ module Prawn
     end
 
     def merge_template_options(page_options, options)
-      object_id = state.store.import_page(options[:template], options[:template_page] || 1)
+      object_id = state.store.import_page(
+        options[:template],
+        options[:template_page] || 1
+      )
       page_options.merge!(object_id: object_id, page_template: true)
     end
 
@@ -100,16 +107,16 @@ module Prawn
       #
       def import_page(input, page_num)
         @loaded_objects = {}
-        if template_id = indexed_template(input, page_num)
-          return template_id
-        end
+        template_id = indexed_template(input, page_num)
+        return template_id if template_id
 
         io = if input.respond_to?(:seek) && input.respond_to?(:read)
                input
              elsif File.file?(input.to_s)
                StringIO.new(File.binread(input.to_s))
              else
-               raise ArgumentError, 'input must be an IO-like object or a filename'
+               raise ArgumentError, 'input must be an IO-like object or a ' \
+               'filename'
              end
 
         hash = indexed_hash(input, io)
@@ -118,11 +125,16 @@ module Prawn
         if ref.nil?
           nil
         else
-          index_template(input, page_num, load_object_graph(hash, ref).identifier)
+          index_template(
+            input, page_num,
+            load_object_graph(hash, ref).identifier
+          )
         end
 
-      rescue PDF::Reader::MalformedPDFError, PDF::Reader::InvalidObjectError => e
-        msg = "Error reading template file. If you are sure it's a valid PDF, it may be a bug.\n#{e.message}"
+      rescue PDF::Reader::MalformedPDFError,
+             PDF::Reader::InvalidObjectError => e
+        msg = 'Error reading template file. If you are sure it\'s a valid PDF,'\
+              " it may be a bug.\n#{e.message}"
         raise PDF::Core::Errors::TemplateError, msg
       rescue PDF::Reader::UnsupportedFeatureError
         msg = 'Template file contains unsupported PDF features'
@@ -195,7 +207,8 @@ module Prawn
         @min_version = hash.pdf_version.to_f
 
         if hash.trailer[:Encrypt]
-          msg = "Template file is an encrypted PDF, it can't be used as a template"
+          msg = 'Template file is an encrypted PDF, it can\'t be used as a '\
+              'template'
           raise PDF::Core::Errors::TemplateError, msg
         end
 
@@ -206,8 +219,10 @@ module Prawn
         if src_root
           @root = load_object_graph(hash, src_root).identifier
         end
-      rescue PDF::Reader::MalformedPDFError, PDF::Reader::InvalidObjectError => e
-        msg = "Error reading template file. If you are sure it's a valid PDF, it may be a bug.\n#{e.message}"
+      rescue PDF::Reader::MalformedPDFError,
+             PDF::Reader::InvalidObjectError => e
+        msg = 'Error reading template file. If you are sure it\'s a valid PDF,'\
+              " it may be a bug.\n#{e.message}"
         raise PDF::Core::Errors::TemplateError, msg
       rescue PDF::Reader::UnsupportedFeatureError
         msg = 'Template file contains unsupported PDF features'
@@ -224,7 +239,9 @@ module Prawn
         @loaded_objects ||= {}
         case object
         when ::Hash then
-          object.each { |key, value| object[key] = load_object_graph(hash, value) }
+          object.each do |key, value|
+            object[key] = load_object_graph(hash, value)
+          end
           object
         when Array then
           object.map { |item| load_object_graph(hash, item) }
@@ -242,8 +259,8 @@ module Prawn
           end
           @loaded_objects[object.id]
         when PDF::Reader::Stream
-          # Stream is a subclass of string, so this is here to prevent the stream
-          # being wrapped in a LiteralString
+          # Stream is a subclass of string, so this is here to prevent the
+          # stream being wrapped in a LiteralString
           object
         when String
           utf8?(object) ? object : PDF::Core::ByteString.new(object)
@@ -256,7 +273,8 @@ module Prawn
 end
 
 if Prawn::Document::VALID_OPTIONS.frozen?
-  Prawn::Document::VALID_OPTIONS = (Prawn::Document::VALID_OPTIONS.dup << :template).freeze
+  Prawn::Document::VALID_OPTIONS =
+    (Prawn::Document::VALID_OPTIONS.dup << :template).freeze
 else
   Prawn::Document::VALID_OPTIONS << :template
 end
