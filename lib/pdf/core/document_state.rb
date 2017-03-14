@@ -27,14 +27,14 @@ module PDF
             end
         end
 
-        @version                 = 1.3
-        @pages                   = []
-        @page                    = nil
-        @trailer                 = options.fetch(:trailer, {})
-        @compress                = options.fetch(:compress, false)
-        @encrypt                 = options.fetch(:encrypt, false)
-        @encryption_key          = options[:encryption_key]
-        @skip_encoding           = options.fetch(:skip_encoding, false)
+        @version = 1.3
+        @pages = []
+        @page = nil
+        @trailer = options.fetch(:trailer, {})
+        @compress = options.fetch(:compress, false)
+        @encrypt = options.fetch(:encrypt, false)
+        @encryption_key = options[:encryption_key]
+        @skip_encoding = options.fetch(:skip_encoding, false)
         @before_render_callbacks = []
         @on_page_create_callback = nil
       end

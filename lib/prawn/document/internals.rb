@@ -1,6 +1,8 @@
 module Prawn
   class Document
     module Internals
+      delegate [:open_graphics_state] => :renderer
+
       # adds a new, empty content stream to each page. Used in templating so
       # that imported content streams can be left pristine
       #

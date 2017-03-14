@@ -3,12 +3,12 @@ require 'pdf/reader'
 require 'pdf/core'
 require 'prawn/text'
 
-require_relative "../pdf/core/document_state"
-require_relative "../pdf/core/errors"
-require_relative "../pdf/core/object_store"
-require_relative "../pdf/core/page"
-require_relative "text"
-require_relative "document/internals"
+require_relative '../pdf/core/document_state'
+require_relative '../pdf/core/errors'
+require_relative '../pdf/core/object_store'
+require_relative '../pdf/core/page'
+require_relative 'text'
+require_relative 'document/internals'
 
 module Prawn
   # @private
@@ -26,24 +26,28 @@ module Prawn
     def start_new_page(options = {})
       return super unless options[:template]
 
-      if last_page = state.page
-        last_page_size    = last_page.size
-        last_page_layout  = last_page.layout
+      last_page = state.page
+      if last_page
+        last_page_size = last_page.size
+        last_page_layout = last_page.layout
         last_page_margins = last_page.margins.dup
       end
 
       page_options = {
-        :size    => options[:size] || last_page_size,
-        :layout  => options[:layout] || last_page_layout,
-        :margins => last_page_margins
+        size: options[:size] || last_page_size,
+        layout: options[:layout] || last_page_layout,
+        margins: last_page_margins
       }
       if last_page
-        new_graphic_state = last_page.graphic_state.dup  if last_page.graphic_state
+        if last_page.graphic_state
+          new_graphic_state = last_page.graphic_state.dup
+        end
 
-        # erase the color space so that it gets reset on new page for fussy pdf-readers
+        # erase the color space so that it gets reset on new page for fussy
+        # pdf-readers
         new_graphic_state.color_space = {} if new_graphic_state
 
-        page_options.merge!(:graphic_state => new_graphic_state)
+        page_options[:graphic_state] = new_graphic_state
       end
 
       merge_template_options(page_options, options)
@@ -67,7 +71,7 @@ module Prawn
         state.insert_page(state.page, @page_number)
         @page_number += 1
 
-        canvas { image(@background, :scale => @background_scale, :at => bounds.top_left) } if @background
+        canvas { image(@background, scale: @background_scale, at: bounds.top_left) } if @background
         @y = @bounding_box.absolute_top
 
         float do
@@ -78,7 +82,7 @@ module Prawn
 
     def merge_template_options(page_options, options)
       object_id = state.store.import_page(options[:template], options[:template_page] || 1)
-      page_options.merge!(:object_id => object_id, :page_template => true)
+      page_options.merge!(object_id: object_id, page_template: true)
     end
 
     module ObjectStoreExtensions
@@ -105,11 +109,11 @@ module Prawn
              elsif File.file?(input.to_s)
                StringIO.new(File.binread(input.to_s))
              else
-               fail ArgumentError, "input must be an IO-like object or a filename"
+               raise ArgumentError, 'input must be an IO-like object or a filename'
              end
 
         hash = indexed_hash(input, io)
-        ref  = hash.page_references[page_num - 1]
+        ref = hash.page_references[page_num - 1]
 
         if ref.nil?
           nil
@@ -121,7 +125,7 @@ module Prawn
         msg = "Error reading template file. If you are sure it's a valid PDF, it may be a bug.\n#{e.message}"
         raise PDF::Core::Errors::TemplateError, msg
       rescue PDF::Reader::UnsupportedFeatureError
-        msg = "Template file contains unsupported PDF features"
+        msg = 'Template file contains unsupported PDF features'
         raise PDF::Core::Errors::TemplateError, msg
       end
 
@@ -181,8 +185,8 @@ module Prawn
       #
       def load_file(template)
         unless (template.respond_to?(:seek) && template.respond_to?(:read)) ||
-               File.file?(template)
-          fail ArgumentError, "#{template} does not exist"
+            File.file?(template)
+          raise ArgumentError, "#{template} does not exist"
         end
 
         hash = PDF::Reader::ObjectHash.new(template)
@@ -192,7 +196,7 @@ module Prawn
 
         if hash.trailer[:Encrypt]
           msg = "Template file is an encrypted PDF, it can't be used as a template"
-          fail PDF::Core::Errors::TemplateError, msg
+          raise PDF::Core::Errors::TemplateError, msg
         end
 
         if src_info
@@ -206,7 +210,7 @@ module Prawn
         msg = "Error reading template file. If you are sure it's a valid PDF, it may be a bug.\n#{e.message}"
         raise PDF::Core::Errors::TemplateError, msg
       rescue PDF::Reader::UnsupportedFeatureError
-        msg = "Template file contains unsupported PDF features"
+        msg = 'Template file contains unsupported PDF features'
         raise PDF::Core::Errors::TemplateError, msg
       end
 
@@ -228,7 +232,7 @@ module Prawn
           unless @loaded_objects.key?(object.id)
             @loaded_objects[object.id] = ref(nil)
             new_obj = load_object_graph(hash, hash[object])
-            if new_obj.kind_of?(PDF::Reader::Stream)
+            if new_obj.is_a?(PDF::Reader::Stream)
               stream_dict = load_object_graph(hash, new_obj.hash)
               @loaded_objects[object.id].data = stream_dict
               @loaded_objects[object.id] << new_obj.data
@@ -242,7 +246,7 @@ module Prawn
           # being wrapped in a LiteralString
           object
         when String
-          is_utf8?(object) ? object : PDF::Core::ByteString.new(object)
+          utf8?(object) ? object : PDF::Core::ByteString.new(object)
         else
           object
         end
