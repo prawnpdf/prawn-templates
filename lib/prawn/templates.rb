@@ -251,7 +251,11 @@ module Prawn
   end
 end
 
-Prawn::Document::VALID_OPTIONS << :template
+if Prawn::Document::VALID_OPTIONS.frozen?
+  Prawn::Document::VALID_OPTIONS = (Prawn::Document::VALID_OPTIONS.dup << :template).freeze
+else
+  Prawn::Document::VALID_OPTIONS << :template
+end
 Prawn::Document.extensions << Prawn::Templates
 
 PDF::Core::ObjectStore.send(:include, Prawn::Templates::ObjectStoreExtensions)
