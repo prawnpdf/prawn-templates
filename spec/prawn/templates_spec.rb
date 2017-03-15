@@ -29,7 +29,7 @@ describe Prawn::Templates do
       expect(pdf.y.nil?).to be_falsey
     end
 
-    it 'respects margins set by Prawn', pending: true do
+    it 'respects margins set by Prawn' do
       filename = "#{DATADIR}/pdfs/curves.pdf"
 
       pdf = Prawn::Document.new(template: filename, margin: 0)
@@ -226,7 +226,7 @@ describe Prawn::Templates do
       expect(pdf.y.nil?).to be_falsey
     end
 
-    it 'respects margins set by Prawn', pending: true do
+    it 'respects margins set by Prawn' do
       pdf = Prawn::Document.new(margin: 0)
       pdf.start_new_page(template: filename)
       expect(pdf.page.margins).to eq(
