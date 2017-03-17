@@ -273,8 +273,13 @@ module Prawn
 end
 
 if Prawn::Document::VALID_OPTIONS.frozen?
-  Prawn::Document::VALID_OPTIONS =
-    (Prawn::Document::VALID_OPTIONS.dup << :template).freeze
+  Prawn::Document.const_set(
+    :VALID_OPTIONS,
+    (Prawn::Document.send(
+      :remove_const,
+      :VALID_OPTIONS
+    ).dup << :template).freeze
+  )
 else
   Prawn::Document::VALID_OPTIONS << :template
 end
