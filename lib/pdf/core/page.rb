@@ -1,6 +1,7 @@
 module PDF
   module Core
     class Page #:nodoc:
+      alias __initialize initialize
       def initialize(document, options = {})
         @document = document
         @margins = options[:margins] || {
@@ -36,10 +37,13 @@ module PDF
         document.open_graphics_state
       end
 
-      def imported_page?
-        @imported_page
+      unless method_defined? :imported_page?
+        def imported_page?
+          @imported_page
+        end
       end
 
+      alias __dimensions dimensions if method_defined? :dimensions
       def dimensions
         return inherited_dictionary_value(:MediaBox) if imported_page?
 
@@ -56,6 +60,9 @@ module PDF
           end
       end
 
+      if method_defined? :init_from_object
+        alias __init_from_object init_from_object
+      end
       def init_from_object(options)
         @dictionary = options[:object_id].to_i
         if options[:page_template]
@@ -71,6 +78,7 @@ module PDF
         @imported_page = true
       end
 
+      alias __init_new_page init_new_page if method_defined? :init_new_page
       def init_new_page(options)
         @size = options[:size] || 'LETTER'
         @layout = options[:layout] || :portrait
