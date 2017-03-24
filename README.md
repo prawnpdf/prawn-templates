@@ -25,4 +25,7 @@ https://github.com/prawnpdf/prawn/issues?direction=desc&labels=templates&page=1&
 
 Issues that affect releases after 0.0.3 should be filed here.
 
-For Prawn 2.1.0 use 0.0.4, Prawn 2.2.x should work with 0.0.5
+For Prawn 2.1.0 use v0.0.4, Prawn 2.2.1 works with 0.0.5, if you rely on
+pdf-reader 2.0 you should opt for 0.1.0. Although the gem requires ruby
+versions after 1.9.3 only the ones mentioned in `.travis.yml` are
+supported.
