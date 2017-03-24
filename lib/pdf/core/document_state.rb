@@ -1,6 +1,7 @@
 module PDF
   module Core
     class DocumentState #:nodoc:
+      alias __initialize initialize
       def initialize(options)
         normalize_metadata(options)
 
