@@ -11,6 +11,12 @@ describe Prawn::Templates do
       page_counter = PDF::Inspector::Page.analyze(pdf.render)
 
       expect(page_counter.pages.size).to eq 1
+
+      filename = "#{DATADIR}/pdfs/multipage_template.pdf"
+      pdf = Prawn::Document.new(template: filename)
+      page_counter = PDF::Inspector::Page.analyze(pdf.render)
+
+      expect(page_counter.pages.size).to eq 3
     end
 
     it 'does not set the template page\'s parent to the document pages catalog'\
