@@ -1,5 +1,9 @@
+# Prawn Templates
+
+[![Gem Version](https://badge.fury.io/rb/prawn-templates.svg)](http://badge.fury.io/rb/prawn-templates)
 [![Build Status](https://travis-ci.org/prawnpdf/prawn-templates.svg?branch=master)](https://travis-ci.org/prawnpdf/prawn-templates)
-![Maintained: PRs accepted](https://img.shields.io/badge/maintained-PRs_accepted-orange.png)
+[![Code Climate](https://codeclimate.com/github/prawnpdf/prawn-templates/badges/gpa.svg)](https://codeclimate.com/github/prawnpdf/prawn-templates)
+![Maintained: PRs accepted](https://img.shields.io/badge/maintained-PRs_accepted-orange.svg)
 
 Support for templates was dropped in Prawn 0.13.0, 
 disabled by default in 0.14.0, and extracted in 0.15.0.
