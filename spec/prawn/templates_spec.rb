@@ -31,8 +31,8 @@ describe Prawn::Templates do
       filename = "#{DATADIR}/pdfs/arch_e1.pdf"
       pdf = Prawn::Document.new(template: filename, margin: 0)
       expect(pdf.bounds.top_left).to eq [0, 2160]
-      expect(pdf.bounds.width).to eq 72 * (42)
-      expect(pdf.bounds.height).to eq 72 * (30)
+      expect(pdf.bounds.width).to eq 72 * 42
+      expect(pdf.bounds.height).to eq 72 * 30
     end
 
     it 'does not set the template page\'s parent to the document pages catalog'\
