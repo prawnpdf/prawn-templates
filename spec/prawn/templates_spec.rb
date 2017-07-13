@@ -11,6 +11,28 @@ describe Prawn::Templates do
       page_counter = PDF::Inspector::Page.analyze(pdf.render)
 
       expect(page_counter.pages.size).to eq 1
+
+      filename = "#{DATADIR}/pdfs/multipage_template.pdf"
+      pdf = Prawn::Document.new(template: filename)
+      page_counter = PDF::Inspector::Page.analyze(pdf.render)
+
+      expect(page_counter.pages.size).to eq 3
+    end
+
+    it 'recognizes a large page format' do
+      # try with default margin of 72pt
+      filename = "#{DATADIR}/pdfs/arch_e1.pdf"
+      pdf = Prawn::Document.new(template: filename)
+      expect(pdf.bounds.top_left).to eq [0, 2088]
+      expect(pdf.bounds.width).to eq 72 * (42 - 1)
+      expect(pdf.bounds.height).to eq 72 * (30 - 1)
+
+      # set margin to 0 to confirm full-page bounds
+      filename = "#{DATADIR}/pdfs/arch_e1.pdf"
+      pdf = Prawn::Document.new(template: filename, margin: 0)
+      expect(pdf.bounds.top_left).to eq [0, 2160]
+      expect(pdf.bounds.width).to eq 72 * 42
+      expect(pdf.bounds.height).to eq 72 * 30
     end
 
     it 'does not set the template page\'s parent to the document pages catalog'\
