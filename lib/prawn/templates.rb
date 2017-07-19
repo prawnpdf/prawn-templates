@@ -130,7 +130,6 @@ module Prawn
             load_object_graph(hash, ref).identifier
           )
         end
-
       rescue PDF::Reader::MalformedPDFError,
              PDF::Reader::InvalidObjectError => e
         msg = 'Error reading template file. If you are sure it\'s a valid PDF,'\

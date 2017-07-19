@@ -29,7 +29,7 @@ Metrics/ModuleLength:
 Metrics/PerceivedComplexity:
   Enabled: false
 
-Style/AlignParameters:
+Layout/AlignParameters:
   EnforcedStyle: with_fixed_indentation
 
 # We need to reference non-ascii characters when testing and explaining
@@ -43,16 +43,16 @@ Style/Documentation:
 Style/Encoding:
   EnforcedStyle: never
 
-Style/FirstArrayElementLineBreak:
+Layout/FirstArrayElementLineBreak:
   Enabled: true
 
-Style/FirstHashElementLineBreak:
+Layout/FirstHashElementLineBreak:
   Enabled: true
 
-Style/FirstMethodArgumentLineBreak:
+Layout/FirstMethodArgumentLineBreak:
   Enabled: true
 
-Style/FirstParameterIndentation:
+Layout/FirstParameterIndentation:
   EnforcedStyle: consistent
 
 Style/GuardClause:
@@ -63,16 +63,16 @@ Style/GuardClause:
 Style/IfUnlessModifier:
   Enabled: false
 
-Style/IndentArray:
+Layout/IndentArray:
   EnforcedStyle: consistent
 
-Style/IndentHash:
+Layout/IndentHash:
   EnforcedStyle: consistent
 
-Style/MultilineMethodCallIndentation:
+Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
-Style/MultilineOperationIndentation:
+Layout/MultilineOperationIndentation:
   EnforcedStyle: indented
   Exclude:
     - prawn-templates.gemspec
@@ -90,7 +90,7 @@ Style/PercentLiteralDelimiters:
     '%W': '[]'
     '%x': '()'
 
-Style/SpaceAroundOperators:
+Layout/SpaceAroundOperators:
   AllowForAlignment: false
 
 Style/WhileUntilModifier:
