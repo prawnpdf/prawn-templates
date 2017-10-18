@@ -22,6 +22,17 @@ module PDF
         end
       end
 
+      # If :Contents is a reference to an array, returns the resolved reference.
+      # Otherwise, makes sure :Contents is an array.
+      def ensure_contents_array
+        contents = dictionary.data[:Contents]
+        if contents.is_a?(PDF::Core::Reference) && contents.data.is_a?(Array)
+          return contents.data
+        end
+        # Ensure contents is an array.
+        dictionary.data[:Contents] = Array(contents)
+      end
+
       # As per the PDF spec, each page can have multiple content streams. This
       # will add a fresh, empty content stream this the page, mainly for use in
       # loading template files.
@@ -29,11 +40,9 @@ module PDF
       def new_content_stream
         return if in_stamp_stream?
 
-        unless dictionary.data[:Contents].is_a?(Array)
-          dictionary.data[:Contents] = [content]
-        end
         @content = document.ref({})
-        dictionary.data[:Contents] << document.state.store[@content]
+        contents = ensure_contents_array
+        contents << document.state.store[@content]
         document.open_graphics_state
       end
 
