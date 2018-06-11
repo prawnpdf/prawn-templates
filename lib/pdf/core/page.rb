@@ -45,7 +45,11 @@ module PDF
 
       alias __dimensions dimensions if method_defined? :dimensions
       def dimensions
-        return inherited_dictionary_value(:MediaBox) if imported_page?
+        if imported_page?
+          media_box = inherited_dictionary_value(:MediaBox)
+          return media_box.data if media_box.is_a?(PDF::Core::Reference)
+          return media_box
+        end
 
         coords = PDF::Core::PageGeometry::SIZES[size] || size
         [0, 0] +
