@@ -26,31 +26,21 @@ module Prawn
     def start_new_page(options = {})
       return super unless options[:template]
 
-      last_page = state.page
-      if last_page
-        last_page_size = last_page.size
-        last_page_layout = last_page.layout
-        last_page_margins = last_page.margins.dup
-      end
+      previous_page_options = options_from_state
 
       page_options = {
-        size: options[:size] || last_page_size,
-        layout: options[:layout] || last_page_layout,
-        margins: last_page_margins
+        size: options[:size] || previous_page_options[:size],
+        layout: options[:layout] || previous_page_options[:layout],
+        margins: previous_page_options[:margins]
       }
-      if last_page
-        if last_page.graphic_state
-          new_graphic_state = last_page.graphic_state.dup
-        end
 
-        # erase the color space so that it gets reset on new page for fussy
-        # pdf-readers
-        new_graphic_state.color_space = {} if new_graphic_state
-
-        page_options[:graphic_state] = new_graphic_state
+      if previous_page_options[:graphic_state]
+        page_options[:graphic_state] = previous_page_options[:graphic_state]
       end
 
       merge_template_options(page_options, options)
+
+      last_page = state.page
 
       state.page = PDF::Core::Page.new(self, page_options)
 
@@ -90,6 +80,34 @@ module Prawn
         options[:template_page] || 1
       )
       page_options.merge!(object_id: object_id, page_template: true)
+    end
+
+    private
+
+    def options_from_state
+      return {} unless state.page
+      last_page = state.page
+
+      {
+        size: last_page.size,
+        layout: last_page.layout,
+        margins: last_page.margins.dup,
+        graphic_state: previous_page_graphic_state
+      }
+    end
+
+    def previous_page_graphic_state
+      return {} unless state.page
+      last_page = state.page
+
+      if last_page.graphic_state
+        new_graphic_state = last_page.graphic_state.dup
+
+        # erase the color space so that it gets reset on new page for fussy
+        # pdf-readers
+        new_graphic_state.color_space = {}
+        new_graphic_state
+      end
     end
 
     module ObjectStoreExtensions
