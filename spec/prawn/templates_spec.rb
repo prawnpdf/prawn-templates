@@ -229,6 +229,17 @@ describe Prawn::Templates do
         expect(hash[hash.trailer[:Info]].keys.include?(k)).to eq true
       end
     end
+
+    it 'returns correct dimensions when :MediaBox is a reference' do
+      filename = "#{DATADIR}/pdfs/page_with_mediabox_reference.pdf"
+      pdf = Prawn::Document.new(template: filename)
+
+      # expect the inherited value to be a reference
+      expect(pdf.state.page.send(:inherited_dictionary_value, :MediaBox)).to be_a PDF::Core::Reference
+
+      # expect dimensions to come back as an array
+      expect(pdf.state.page.dimensions).to be_a Array
+    end
   end
 
   describe 'Document#start_new_page with :template option' do

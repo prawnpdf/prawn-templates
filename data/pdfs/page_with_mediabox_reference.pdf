@@ -1,0 +1,108 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+3 0 obj
+<< /Type /Page
+/Parent 2 0 R
+/Resources 4 0 R
+/MediaBox [0 0 612 792]
+/Contents 5 0 R
+>>
+endobj
+4 0 obj
+<< /ProcSet [/PDF /ImageB]
+/XObject << /Im1 6 0 R >>
+>>
+endobj
+5 0 obj
+<< /Length 107 >>
+stream
+   q
+      0.480000 0 0 0.480000 0 0 cm
+      1 0 0 1 0 0 cm
+      1275 0 0 1650 0 0 cm
+      /Im1 Do
+   Q
+
+endstream
+endobj
+6 0 obj
+<< /Length 195
+>>
+stream
+0.000 0.000 0.000 rg
+0.000 0.000 0.000 RG
+q
+1.000 0.000 0.000 rg
+136.000 286.000 m
+236.000 336.000 l
+336.000 286.000 l
+336.000 186.000 l
+236.000 136.000 l
+136.000 186.000 l
+136.000 286.000 l
+f
+Q
+
+endstream
+endobj
+
+7 0 obj
+55597
+endobj
+2 0 obj
+<< /Type /Pages
+/Kids [3 0 R ]
+/Count 1
+>>
+endobj
+xref
+0 8
+0000000000 65535 f
+0000000009 00000 n
+0000000659 00000 n
+0000000058 00000 n
+0000000162 00000 n
+0000000233 00000 n
+0000000391 00000 n
+0000000638 00000 n
+trailer
+<< /Size 8
+/Root 1 0 R
+>>
+startxref
+717
+%%EOF3 0 obj
+<<
+/Type /Page
+/Parent 2 0 R
+/Resources 4 0 R
+/MediaBox 9 0 R
+/Contents 5 0 R
+/Rotate 90
+
+>>
+
+endobj
+9 0 obj
+[ 0  0  612  792  ]
+endobj
+xref
+3 1
+0000000931 00000 n
+9 1
+0000001040 00000 n
+trailer
+<<
+/Size 9
+/Root 1 0 R
+/Prev 717
+
+>>
+
+startxref
+1075
+%%EOF
