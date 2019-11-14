@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 puts "PDF::Core specs: Running on Ruby Version: #{RUBY_VERSION}"
 
 require 'bundler'

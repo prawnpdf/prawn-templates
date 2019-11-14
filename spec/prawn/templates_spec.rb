@@ -48,7 +48,7 @@ describe Prawn::Templates do
       filename = "#{DATADIR}/pdfs/curves.pdf"
 
       pdf = Prawn::Document.new(template: filename)
-      expect(pdf.y.nil?).to be_falsey
+      expect(pdf.y).to_not be_nil
     end
 
     it 'respects margins set by Prawn' do
@@ -91,7 +91,7 @@ describe Prawn::Templates do
         next unless obj.is_a?(PDF::Reader::Stream)
 
         data = obj.data.tr(" \n\r", '')
-        expect(data.include?('QQ')).to be_falsey
+        expect(data).to_not include 'QQ'
       end
     end
 
@@ -109,7 +109,7 @@ describe Prawn::Templates do
       expect(pages.size).to eq 1
     end
 
-    it 'has two content streams if importing a single page template' do
+    it 'has four content streams if importing a single page template' do
       filename = "#{DATADIR}/pdfs/hexagon.pdf"
 
       pdf = Prawn::Document.new(template: filename)
@@ -118,7 +118,7 @@ describe Prawn::Templates do
 
       streams = hash.values.select { |obj| obj.is_a?(PDF::Reader::Stream) }
 
-      expect(streams.size).to eq 2
+      expect(streams.size).to eq 4
     end
 
     it 'does not die if using this PDF as a template' do
@@ -129,19 +129,28 @@ describe Prawn::Templates do
       end.to_not raise_error
     end
 
-    it 'has balance q/Q operators on all content streams' do
+    it 'wraps and balances q/Q streams' do
       filename = "#{DATADIR}/pdfs/hexagon.pdf"
 
       pdf = Prawn::Document.new(template: filename)
       output = StringIO.new(pdf.render)
       hash = PDF::Reader::ObjectHash.new(output)
 
-      streams = hash.values.select { |obj| obj.is_a?(PDF::Reader::Stream) }
+      page = hash.values.find { |obj| obj[:Type] == :Page }
 
-      streams.each do |stream|
+      page[:Contents].each_with_index do |ref, i|
+        stream_ref = hash.keys.find { |key| key.id == ref.id }
+        stream = hash[stream_ref]
         data = stream.unfiltered_data
-        expect(data.scan('q').size).to eq(1)
-        expect(data.scan('Q').size).to eq(1)
+
+        if i == 0
+          expect(data).to eq("q\n")
+        elsif i == page[:Contents].length - 2
+          expect(data).to eq("Q\n")
+        else
+          expect(data.scan('q').size).to eq(1)
+          expect(data.scan('Q').size).to eq(1)
+        end
       end
     end
 
@@ -166,7 +175,7 @@ describe Prawn::Templates do
 
       text = PDF::Inspector::Text.analyze(pdf.render)
       all_text = text.strings.join
-      expect(all_text.include?('Adding some text')).to be_truthy
+      expect(all_text).to include 'Adding some text'
     end
 
     it 'copies the PDF version from the template file' do
@@ -225,7 +234,7 @@ describe Prawn::Templates do
       pdf = Prawn::Document.new(template: filename, info: info)
       output = StringIO.new(pdf.render)
       hash = PDF::Reader::ObjectHash.new(output)
-      info.keys.each do |k|
+      info.each_key do |k|
         expect(hash[hash.trailer[:Info]].keys.include?(k)).to eq true
       end
     end
@@ -245,7 +254,7 @@ describe Prawn::Templates do
     it 'sets start the Y cursor at the top of the page' do
       pdf = Prawn::Document.new
       pdf.start_new_page(template: filename)
-      expect(pdf.y.nil?).to be_falsey
+      expect(pdf.y).to_not be_nil
     end
 
     it 'respects margins set by Prawn' do
@@ -286,7 +295,7 @@ describe Prawn::Templates do
         next unless obj.is_a?(PDF::Reader::Stream)
 
         data = obj.data.tr(" \n\r", '')
-        expect(data.include?('QQ')).to be_falsey
+        expect(data).to_not include 'QQ'
       end
     end
 
@@ -341,7 +350,7 @@ describe Prawn::Templates do
 
       text = PDF::Inspector::Text.analyze(pdf.render)
       all_text = text.strings.join
-      expect(all_text.include?('Adding some text')).to be_truthy
+      expect(all_text).to include 'Adding some text'
     end
 
     it 'correctly adds a TTF font to a template that has existing fonts' do
