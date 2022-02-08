@@ -1,9 +1,7 @@
-require 'bundler'
-Bundler.setup
+# frozen_string_literal: true
 
-require 'rake'
-require 'rspec/core/rake_task'
-require 'rubocop/rake_task'
+GEMSPEC = File.expand_path('prawn-templates.gemspec', __dir__)
+require 'prawn/dev/tasks'
 
 task default: %i[spec rubocop]
 

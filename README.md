@@ -1,7 +1,7 @@
 # Prawn Templates
 
 [![Gem Version](https://badge.fury.io/rb/prawn-templates.svg)](http://badge.fury.io/rb/prawn-templates)
-[![Build Status](https://travis-ci.org/prawnpdf/prawn-templates.svg?branch=master)](https://travis-ci.org/prawnpdf/prawn-templates)
+![Build Status](https://github.com/prawnpdf/prawn-templates/actions/workflows/ci.yml/badge.svg)
 [![Code Climate](https://codeclimate.com/github/prawnpdf/prawn-templates/badges/gpa.svg)](https://codeclimate.com/github/prawnpdf/prawn-templates)
 ![Maintained: PRs accepted](https://img.shields.io/badge/maintained-PRs_accepted-orange.svg)
 

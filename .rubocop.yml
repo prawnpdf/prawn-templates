@@ -1,4 +1,5 @@
-require: rubocop-rspec
+inherit_gem:
+  prawn-dev: rubocop.yml
 
 RSpec/ExampleLength:
   Enabled: false
@@ -29,7 +30,7 @@ Metrics/ModuleLength:
 Metrics/PerceivedComplexity:
   Enabled: false
 
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   EnforcedStyle: with_fixed_indentation
 
 # We need to reference non-ascii characters when testing and explaining
@@ -39,9 +40,6 @@ Style/AsciiComments:
 
 Style/Documentation:
   Enabled: false
-
-Style/Encoding:
-  EnforcedStyle: never
 
 Layout/FirstArrayElementLineBreak:
   Enabled: true
@@ -63,10 +61,10 @@ Style/GuardClause:
 Style/IfUnlessModifier:
   Enabled: false
 
-Layout/IndentArray:
+Layout/FirstArrayElementIndentation:
   EnforcedStyle: consistent
 
-Layout/IndentHash:
+Layout/FirstHashElementIndentation:
   EnforcedStyle: consistent
 
 Layout/MultilineMethodCallIndentation:

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PDF
   module Core
     module Errors

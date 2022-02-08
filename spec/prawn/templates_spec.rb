@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require_relative '../spec_helper'
 require_relative '../../lib/prawn/templates'
 
-DATADIR = "#{File.dirname(__FILE__)}/../../data".freeze
+DATADIR = "#{File.dirname(__FILE__)}/../../data"
 
 describe Prawn::Templates do
   describe 'Document built from a template' do
@@ -109,9 +111,10 @@ describe Prawn::Templates do
       output = StringIO.new(pdf.render)
       hash = PDF::Reader::ObjectHash.new(output)
 
-      pages = hash.values.select do |obj|
-        obj.is_a?(Hash) && obj[:Type] == :Page
-      end
+      pages =
+        hash.values.select do |obj|
+          obj.is_a?(Hash) && obj[:Type] == :Page
+        end
 
       expect(pages.size).to eq 1
     end
@@ -150,9 +153,10 @@ describe Prawn::Templates do
         stream = hash[stream_ref]
         data = stream.unfiltered_data
 
-        if i == 0
+        case i
+        when 0
           expect(data).to eq("q\n")
-        elsif i == page[:Contents].length - 2
+        when page[:Contents].length - 2
           expect(data).to eq("Q\n")
         else
           expect(data.scan('q').size).to eq(1)
@@ -203,9 +207,10 @@ describe Prawn::Templates do
       output = StringIO.new(pdf.render)
       hash = PDF::Reader::ObjectHash.new(output)
 
-      page_dict = hash.values.detect do |obj|
-        obj.is_a?(Hash) && obj[:Type] == :Page
-      end
+      page_dict =
+        hash.values.find do |obj|
+          obj.is_a?(Hash) && obj[:Type] == :Page
+        end
       resources = page_dict[:Resources]
       fonts = resources[:Font]
       expect(fonts.size).to eq 2
@@ -242,7 +247,7 @@ describe Prawn::Templates do
       output = StringIO.new(pdf.render)
       hash = PDF::Reader::ObjectHash.new(output)
       info.each_key do |k|
-        expect(hash[hash.trailer[:Info]].keys.include?(k)).to eq true
+        expect(hash[hash.trailer[:Info]].key?(k)).to eq true
       end
     end
 
@@ -251,7 +256,9 @@ describe Prawn::Templates do
       pdf = Prawn::Document.new(template: filename)
 
       # expect the inherited value to be a reference
+      # rubocop:disable Style/Send
       expect(pdf.state.page.send(:inherited_dictionary_value, :MediaBox)).to be_a PDF::Core::Reference
+      # rubocop:enable Style/Send
 
       # expect dimensions to come back as an array
       expect(pdf.state.page.dimensions).to be_a Array
@@ -394,9 +401,11 @@ describe Prawn::Templates do
       filename = "#{DATADIR}/pdfs/multipage_template.pdf"
       repeated_pdf = Prawn::Document.new
       3.times { repeated_pdf.start_new_page(template: filename) }
-      repeated_hash = PDF::Reader::ObjectHash.new(StringIO.new(
-        repeated_pdf.render
-      ))
+      repeated_hash = PDF::Reader::ObjectHash.new(
+        StringIO.new(
+          repeated_pdf.render
+        )
+      )
       sequential_pdf = Prawn::Document.new
       (1..3).each do |p|
         sequential_pdf.start_new_page(
@@ -404,9 +413,11 @@ describe Prawn::Templates do
           template_page: p
         )
       end
-      sequential_hash = PDF::Reader::ObjectHash.new(StringIO.new(
-        sequential_pdf.render
-      ))
+      sequential_hash = PDF::Reader::ObjectHash.new(
+        StringIO.new(
+          sequential_pdf.render
+        )
+      )
       expect(repeated_hash.size < sequential_hash.size).to be_truthy
     end
 
@@ -423,7 +434,7 @@ describe Prawn::Templates do
       end
     end
 
-    context 'using template_page option' do
+    context 'when using template_page option' do
       it 'uses the specified page option' do
         filename = "#{DATADIR}/pdfs/multipage_template.pdf"
         pdf = Prawn::Document.new
