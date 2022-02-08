@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 puts "PDF::Core specs: Running on Ruby Version: #{RUBY_VERSION}"
 
 require 'bundler'

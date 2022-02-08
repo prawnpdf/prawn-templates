@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module PDF
   module Core
-    class ObjectStore #:nodoc:
+    class ObjectStore # :nodoc:
       alias __initialize initialize
       def initialize(opts = {})
         @objects = {}

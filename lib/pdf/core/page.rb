@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module PDF
   module Core
-    class Page #:nodoc:
+    class Page # :nodoc:
       alias __initialize initialize
       def initialize(document, options = {})
         @document = document
@@ -64,6 +66,7 @@ module PDF
         if imported_page?
           media_box = inherited_dictionary_value(:MediaBox)
           return media_box.data if media_box.is_a?(PDF::Core::Reference)
+
           return media_box
         end
 

@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 module Prawn
-  module Text #:nodoc:
+  module Text # :nodoc:
     def text_rendering_mode(mode = nil)
       if mode.nil?
         return defined?(@text_rendering_mode) && @text_rendering_mode || :fill
       end
+
       unless MODES.key?(mode)
         raise ArgumentError,
           "mode must be between one of #{MODES.keys.join(', ')} (#{mode})"

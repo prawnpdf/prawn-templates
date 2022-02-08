@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This is free software. See LICENSE and COPYING files for details.
 require 'pdf/reader'
 require 'pdf/core'
@@ -110,14 +112,16 @@ module Prawn
         template_id = indexed_template(input, page_num)
         return template_id if template_id
 
-        io = if input.respond_to?(:seek) && input.respond_to?(:read)
-               input
-             elsif File.file?(input.to_s)
-               StringIO.new(File.binread(input.to_s))
-             else
-               raise ArgumentError, 'input must be an IO-like object or a ' \
-               'filename'
-             end
+        io =
+          if input.respond_to?(:seek) && input.respond_to?(:read)
+            input
+          elsif File.file?(input.to_s)
+            StringIO.new(File.binread(input.to_s))
+          else
+            raise ArgumentError,
+              'input must be an IO-like object or a ' \
+                             'filename'
+          end
 
         hash = indexed_hash(input, io)
         ref = hash.page_references[page_num - 1]
@@ -126,7 +130,8 @@ module Prawn
           nil
         else
           index_template(
-            input, page_num,
+            input,
+            page_num,
             load_object_graph(hash, ref).identifier
           )
         end
@@ -185,9 +190,10 @@ module Prawn
       # returns a nested array of object IDs for all pages in this object store.
       #
       def get_page_objects(obj)
-        if obj.data[:Type] == :Page
+        case obj.data[:Type]
+        when :Page
           obj.identifier
-        elsif obj.data[:Type] == :Pages
+        when :Pages
           obj.data[:Kids].map { |kid| get_page_objects(kid) }
         end
       end
@@ -237,14 +243,14 @@ module Prawn
       def load_object_graph(hash, object)
         @loaded_objects ||= {}
         case object
-        when ::Hash then
+        when ::Hash
           object.each do |key, value|
             object[key] = load_object_graph(hash, value)
           end
           object
-        when Array then
+        when Array
           object.map { |item| load_object_graph(hash, item) }
-        when PDF::Reader::Reference then
+        when PDF::Reader::Reference
           unless @loaded_objects.key?(object.id)
             @loaded_objects[object.id] = ref(nil)
             new_obj = load_object_graph(hash, hash[object])
@@ -263,7 +269,7 @@ module Prawn
           object
         when String
           utf8?(object) ? object : PDF::Core::ByteString.new(object)
-        else
+        else # rubocop:disable Lint/DuplicateBranch
           object
         end
       end
@@ -272,6 +278,7 @@ module Prawn
 end
 
 if Prawn::Document::VALID_OPTIONS.frozen?
+  # rubocop:disable Style/Send
   Prawn::Document.const_set(
     :VALID_OPTIONS,
     (Prawn::Document.send(
@@ -279,9 +286,10 @@ if Prawn::Document::VALID_OPTIONS.frozen?
       :VALID_OPTIONS
     ).dup << :template).freeze
   )
+  # rubocop:enable Style/Send
 else
   Prawn::Document::VALID_OPTIONS << :template
 end
 Prawn::Document.extensions << Prawn::Templates
 
-PDF::Core::ObjectStore.send(:include, Prawn::Templates::ObjectStoreExtensions)
+PDF::Core::ObjectStore.include Prawn::Templates::ObjectStoreExtensions
