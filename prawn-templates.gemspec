@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
     'gregory.t.brown@gmail.com', 'brad@bradediger.com', 'dnelson@bluejade.com',
     'greenberg@entryway.net', 'jimmy@deefa.com', 'b.vogel@buddyandselly.com'
   ]
-  spec.add_dependency('pdf-reader', '~> 2.0', '!= 2.9', '!= 2.9.1')
+  spec.add_dependency('pdf-reader', '~> 2.0', '!= 2.9.0', '!= 2.9.1')
   spec.add_dependency('prawn', '~> 2.2')
   spec.add_development_dependency('pdf-inspector', '~> 1.3')
   spec.add_development_dependency('prawn-dev', '~> 0.3.0')

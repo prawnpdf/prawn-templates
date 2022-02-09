@@ -41,7 +41,7 @@ describe Prawn::Templates do
       filename = "#{DATADIR}/pdfs/corrupt_identifier_for_nil.pdf"
       expect do
         Prawn::Document.new(template: filename)
-      end.not_to raise_error
+      end.to_not raise_error
     end
 
     it 'does not set the template page\'s parent to the document pages catalog'\
