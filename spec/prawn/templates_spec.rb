@@ -35,6 +35,13 @@ describe Prawn::Templates do
       expect(pdf.bounds.height).to eq 72 * 30
     end
 
+    it 'handles a document with a nil Contents entry' do
+      filename = "#{DATADIR}/pdfs/corrupt_identifier_for_nil.pdf"
+      expect do
+        Prawn::Document.new(template: filename)
+      end.not_to raise_error
+    end
+
     it 'does not set the template page\'s parent to the document pages catalog'\
       ' (especially with nested pages)' do
       filename = "#{DATADIR}/pdfs/nested_pages.pdf"
