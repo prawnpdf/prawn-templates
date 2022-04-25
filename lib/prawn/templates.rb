@@ -1,14 +1,14 @@
 # This is free software. See LICENSE and COPYING files for details.
 require 'pdf/reader'
 require 'pdf/core'
-require 'prawn/text'
+require 'prawn/templates/text'
 
-require_relative '../pdf/core/document_state'
-require_relative '../pdf/core/errors'
-require_relative '../pdf/core/object_store'
-require_relative '../pdf/core/page'
-require_relative 'text'
-require_relative 'document/internals'
+require_relative 'templates/pdf/core/document_state'
+require_relative 'templates/pdf/core/errors'
+require_relative 'templates/pdf/core/object_store'
+require_relative 'templates/pdf/core/page'
+require_relative 'templates/text'
+require_relative 'templates/document/internals'
 
 module Prawn
   # @private
