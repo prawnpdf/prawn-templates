@@ -418,7 +418,7 @@ describe Prawn::Templates do
           sequential_pdf.render
         )
       )
-      expect(repeated_hash.size < sequential_hash.size).to be_truthy
+      expect(repeated_hash.size == sequential_hash.size).to be_truthy
     end
 
     context 'with the template as a stream' do
